@@ -59,7 +59,7 @@ public class StoreActivity extends AppCompatActivity {
         }
     }
 
-    public void onCreate(View view) {
+    public void onCreate() {
         StoreDBHelper storeDBHelper = new StoreDBHelper(this);
         SQLiteDatabase sqLiteDatabase = storeDBHelper.getWritableDatabase();
 
@@ -84,6 +84,7 @@ public class StoreActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Error, itenta otra vez", Toast.LENGTH_SHORT).show();
             }
+            sqLiteDatabase.close();
         } else {
             Toast.makeText(this, "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
         }

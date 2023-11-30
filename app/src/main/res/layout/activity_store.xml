@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onCreate"
-        android:text="Regresar" />
+        android:text="Registrar" />
 
     <Button
         android:id="@+id/btnUpdate"
