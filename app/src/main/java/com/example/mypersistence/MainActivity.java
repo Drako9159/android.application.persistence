@@ -4,8 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private ArrayList<StoreActivity> storeEntityArrayList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
