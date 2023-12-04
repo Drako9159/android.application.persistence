@@ -1,6 +1,8 @@
 package com.example.mypersistence;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -46,6 +48,22 @@ public class ProductListActivity extends AppCompatActivity {
         recyclerViewProduct.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         productEntityArrayList = new ArrayList<>();
 
+        StoreDBHelper storeDBHelper = new StoreDBHelper(this);
+        SQLiteDatabase sqLiteDatabase = storeDBHelper.getReadableDatabase();
+
+        String sql = "SELECT * FROM " + StoreContract.ProductEntry.TABLE_NAME + " WHERE store_id=" + this.store_id;
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndex("name"));
+            Double price = cursor.getDouble(cursor.getColumnIndex("price"));
+            String description = cursor.getString(cursor.getColumnIndex("description"));
+            int store_id = cursor.getInt(cursor.getColumnIndex("store_id"));
+            int _id = cursor.getInt(cursor.getColumnIndex("_id"));
+            productEntityArrayList.add(new ProductEntity(_id, name, price, description, store_id));
+
+        }
+        sqLiteDatabase.close();
+
         RecyclerViewProductAdapter adapter = new RecyclerViewProductAdapter(this, productEntityArrayList);
         recyclerViewProduct.setAdapter(adapter);
 
@@ -68,46 +86,41 @@ public class ProductListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.newItem:
-                Intent intent = new Intent(this, ProductEntity.class);
-                intent.putExtra("store_id", this.store_id);
-                intent.putExtra("store_name", this.store_name);
-
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return false;
         }
+        if (item.getItemId() == R.id.newItem) {
+            Intent intent = new Intent(this, ProductEntity.class);
+            intent.putExtra("store_id", this.store_id);
+            intent.putExtra("store_name", this.store_name);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_context_list, menu);
+        menuInflater.inflate(R.menu.menu_options_bar, menu);
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.editItem:
-                Intent intent = new Intent(this, ProductEntity.class);
-                ProductEntity product = productEntityArrayList.get(this.recyclerViewItemSelected);
-
-                intent.putExtra("name", product.getName());
-                intent.putExtra("price", product.getPrice());
-                intent.putExtra("description", product.getDescription());
-                intent.putExtra("_id", product.get_id());
-                intent.putExtra("store_id", this.store_id);
-                intent.putExtra("store_name", this.store_name);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onContextItemSelected(item);
+        if (item.getItemId() == R.id.editItem) {
+            Intent intent = new Intent(this, ProductEntity.class);
+            ProductEntity product = productEntityArrayList.get(this.recyclerViewItemSelected);
+            intent.putExtra("name", product.getName());
+            intent.putExtra("price", product.getPrice());
+            intent.putExtra("description", product.getDescription());
+            intent.putExtra("_id", product.get_id());
+            intent.putExtra("store_id", this.store_id);
+            intent.putExtra("store_name", this.store_name);
+            startActivity(intent);
+            return true;
         }
+        return super.onContextItemSelected(item);
     }
 }

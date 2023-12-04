@@ -59,7 +59,7 @@ public class StoreActivity extends AppCompatActivity {
         }
     }
 
-    public void onCreate() {
+    public void onCreate(View view) {
         StoreDBHelper storeDBHelper = new StoreDBHelper(this);
         SQLiteDatabase sqLiteDatabase = storeDBHelper.getWritableDatabase();
 
@@ -89,5 +89,61 @@ public class StoreActivity extends AppCompatActivity {
             Toast.makeText(this, "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    public void onUpdate(View view) {
+        StoreDBHelper storeDBHelper = new StoreDBHelper(this);
+        SQLiteDatabase sqLiteDatabase = storeDBHelper.getWritableDatabase();
+
+        String name = editTextName.getText().toString();
+        String address = editTextAddress.getText().toString();
+
+        if (!name.isEmpty() && !address.isEmpty()) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("name", name);
+            contentValues.put("address", address);
+
+            int count = sqLiteDatabase.update(
+                    StoreContract.StoreEntry.TABLE_NAME,
+                    contentValues,
+                    "_id=" + this.storeSelectedId,
+                    null
+            );
+            if (count != 0) {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                Toast.makeText(this, "Tienda actualizada", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Error, itenta otra vez", Toast.LENGTH_SHORT).show();
+            }
+            sqLiteDatabase.close();
+        } else {
+            Toast.makeText(this, "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void onDelete(View view) {
+        StoreDBHelper storeDBHelper = new StoreDBHelper(this);
+        SQLiteDatabase sqLiteDatabase = storeDBHelper.getWritableDatabase();
+
+        int count = sqLiteDatabase.delete(
+                StoreContract.StoreEntry.TABLE_NAME,
+                "_id=" + this.storeSelectedId,
+                null
+        );
+
+        if (count != 0) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            Toast.makeText(this, "Tienda eliminada correctamente", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Error, itenta otra vez", Toast.LENGTH_SHORT).show();
+
+        }
+        sqLiteDatabase.close();
+
+    }
+
 
 }

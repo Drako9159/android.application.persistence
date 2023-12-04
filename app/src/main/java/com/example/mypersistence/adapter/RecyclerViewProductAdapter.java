@@ -16,11 +16,16 @@ import com.example.mypersistence.entity.ProductEntity;
 
 import java.util.ArrayList;
 
-public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerViewProductAdapter.ViewHolder>{
+public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerViewProductAdapter.ViewHolder> {
     private ArrayList<ProductEntity> productEntityArrayList;
     private Context context;
 
     private OnLongItemCustomListener onLongItemCustomListener;
+
+    public RecyclerViewProductAdapter(Context context, ArrayList<ProductEntity> productEntityArrayList) {
+        this.productEntityArrayList = productEntityArrayList;
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -37,25 +42,25 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
         void itemLongClicked(View v, int position);
     }
 
-    public void setOnLongItemCustomListener(OnLongItemCustomListener onLongItemCustomListener){
+    public void setOnLongItemCustomListener(OnLongItemCustomListener onLongItemCustomListener) {
         this.onLongItemCustomListener = onLongItemCustomListener;
     }
-
 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewProductAdapter.ViewHolder holder, final int position) {
         holder.setValues(productEntityArrayList.get(position));
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if(onLongItemCustomListener!=null){
-                    onLongItemCustomListener.itemLongClicked(v,position);
+                if (onLongItemCustomListener != null) {
+                    onLongItemCustomListener.itemLongClicked(v, position);
                 }
-                return false;
+                return true;
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -65,13 +70,13 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View
 
-            .OnCreateContextMenuListener{
+            .OnCreateContextMenuListener {
 
         TextView textViewProductName, textViewProductPrice, textViewProductDescription;
 
         LinearLayout linearLayout;
 
-        public ViewHolder(@NonNull View itemView){
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             linearLayout = (LinearLayout) itemView.findViewById(R.id.layoutProductItem);
@@ -80,9 +85,10 @@ public class RecyclerViewProductAdapter extends RecyclerView.Adapter<RecyclerVie
             textViewProductDescription = (TextView) itemView.findViewById(R.id.textViewProductDescription);
             linearLayout.setOnCreateContextMenuListener(this);
         }
-        public void setValues(ProductEntity product){
+
+        public void setValues(ProductEntity product) {
             textViewProductName.setText(product.getName());
-            textViewProductPrice.setText(""+product.getPrice());
+            textViewProductPrice.setText("" + product.getPrice());
             textViewProductDescription.setText(product.getDescription());
         }
 

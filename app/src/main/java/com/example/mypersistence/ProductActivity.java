@@ -1,10 +1,14 @@
 package com.example.mypersistence;
 
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,4 +66,101 @@ public class ProductActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public void onCreate(View view) {
+        StoreDBHelper storeDBHelper = new StoreDBHelper(this);
+        SQLiteDatabase sqLiteDatabase = storeDBHelper.getWritableDatabase();
+
+        String name = this.editTextProductName.getText().toString();
+        double price = Double.parseDouble(this.editTextProductPrice.getText().toString());
+        String description = this.editTextProductDescription.getText().toString();
+
+        if (!name.isEmpty() && !description.isEmpty()) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("name", name);
+            contentValues.put("price", price);
+            contentValues.put("description", description);
+            contentValues.put("store_id", this.store_id);
+
+            long newRowId = sqLiteDatabase.insert(
+                    StoreContract.ProductEntry.TABLE_NAME,
+                    null,
+                    contentValues
+            );
+            if (newRowId != -1) {
+                Intent intent = new Intent(this, ProductListActivity.class);
+                intent.putExtra("store_id", this.store_id);
+                intent.putExtra("store_name", this.store_name);
+                startActivity(intent);
+                Toast.makeText(this, "Producto registrado correctamente", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Error, intenta otra vez", Toast.LENGTH_SHORT).show();
+            }
+            sqLiteDatabase.close();
+        } else {
+            Toast.makeText(this, "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void onUpdate(View view) {
+        StoreDBHelper storeDBHelper = new StoreDBHelper(this);
+        SQLiteDatabase sqLiteDatabase = storeDBHelper.getWritableDatabase();
+
+        String name = this.editTextProductName.getText().toString();
+        double price = Double.parseDouble(this.editTextProductPrice.getText().toString());
+        String description = this.editTextProductDescription.getText().toString();
+
+        if (!name.isEmpty() && !description.isEmpty()) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("name", name);
+            contentValues.put("price", price);
+            contentValues.put("description", description);
+
+            long count = sqLiteDatabase.update(
+                    StoreContract.ProductEntry.TABLE_NAME,
+                    contentValues, "_id+" + this.productSelectedId, null
+            );
+
+
+            if (count != 0) {
+                Intent intent = new Intent(this, ProductListActivity.class);
+                intent.putExtra("store_id", this.store_id);
+                intent.putExtra("store_name", this.store_name);
+                startActivity(intent);
+                Toast.makeText(this, "Producto actualizado", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Error, intenta otra vez", Toast.LENGTH_SHORT).show();
+            }
+            sqLiteDatabase.close();
+        } else {
+            Toast.makeText(this, "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void onDelete(View view) {
+        StoreDBHelper storeDBHelper = new StoreDBHelper(this);
+        SQLiteDatabase sqLiteDatabase = storeDBHelper.getWritableDatabase();
+
+        int count = sqLiteDatabase.delete(
+                StoreContract.ProductEntry.TABLE_NAME,
+                "_id" + this.productSelectedId,
+                null
+        );
+        if (count != 0) {
+            Intent intent = new Intent(this, ProductListActivity.class);
+            intent.putExtra("store_id", this.store_id);
+            intent.putExtra("store_name", this.store_name);
+            startActivity(intent);
+            Toast.makeText(this, "Producto eliminado", Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(this, "Error, intenta otra vez", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+
 }

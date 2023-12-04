@@ -55,7 +55,10 @@ public class RecyclerViewStoreAdapter extends RecyclerView.Adapter<RecyclerViewS
         return new ViewHolder(view);
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+    }
 
 
     @Override
