@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class ProductActivity extends AppCompatActivity {
     private Bundle extras;
@@ -26,7 +27,7 @@ public class ProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         editTextProductName = (EditText) findViewById(R.id.editTextProductName);
         editTextProductPrice = (EditText) findViewById(R.id.editTextProductPrice);
@@ -53,7 +54,7 @@ public class ProductActivity extends AppCompatActivity {
             store_id = extras.getInt("store_id", 0);
             store_name = extras.getString("store_name");
         }
-        getSupportActionBar().setTitle("Producto de:" + this.store_name);
+        //getSupportActionBar().setTitle("Producto de:" + this.store_name);
     }
 
     @Override

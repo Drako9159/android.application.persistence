@@ -12,6 +12,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,8 +38,20 @@ public class ProductListActivity extends AppCompatActivity {
         if (this.extras != null) {
             this.store_name = extras.getString("store_name");
             this.store_id = extras.getInt("store_id", 0);
-            getSupportActionBar().setTitle("Productos de:" + store_name);
+            //getSupportActionBar().setTitle("Productos de:" + store_name);
+            //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Products  List");
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBackPressed();
+                }
+            });
+
         }
         this.buildRecyclerView();
     }
@@ -91,7 +104,7 @@ public class ProductListActivity extends AppCompatActivity {
             return false;
         }
         if (item.getItemId() == R.id.newItem) {
-            Intent intent = new Intent(this, ProductEntity.class);
+            Intent intent = new Intent(this, ProductActivity.class);
             intent.putExtra("store_id", this.store_id);
             intent.putExtra("store_name", this.store_name);
             startActivity(intent);
