@@ -1,9 +1,9 @@
 package com.example.mypersistence.entity;
 
 public class StoreEntity {
-    private String name;
-    private String address;
-    private int _id;
+    private String name = "";
+    private String address = "";
+    private int _id = -1;
 
     public StoreEntity(int _id, String name, String address) {
         this.name = name;

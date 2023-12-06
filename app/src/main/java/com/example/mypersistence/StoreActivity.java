@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class StoreActivity extends AppCompatActivity {
 
@@ -44,8 +45,13 @@ public class StoreActivity extends AppCompatActivity {
             this.editTextAddress.setText(extras.getString("address"));
             this.storeSelectedId = extras.getInt("_id", 0);
         }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Tienda");
+
+
+
+
+
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setTitle("Tienda");
     }
 
     @Override

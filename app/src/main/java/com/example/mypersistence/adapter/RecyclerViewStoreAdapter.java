@@ -57,7 +57,10 @@ public class RecyclerViewStoreAdapter extends RecyclerView.Adapter<RecyclerViewS
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        holder.setValues(new StoreEntity(
+                storeEntityArrayList.get(position).get_id(),
+                storeEntityArrayList.get(position).getName(),
+                storeEntityArrayList.get(position).getAddress()));
     }
 
 
@@ -79,6 +82,7 @@ public class RecyclerViewStoreAdapter extends RecyclerView.Adapter<RecyclerViewS
 
             linearLayout.setOnClickListener(this);
             linearLayout.setOnCreateContextMenuListener(this);
+
         }
         public void setValues(StoreEntity storeEntity){
             textViewStoreName.setText(storeEntity.getName());
