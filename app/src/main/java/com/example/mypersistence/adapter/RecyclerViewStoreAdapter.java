@@ -49,9 +49,6 @@ public class RecyclerViewStoreAdapter extends RecyclerView.Adapter<RecyclerViewS
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
 
-
-
-
         return new ViewHolder(view);
     }
 

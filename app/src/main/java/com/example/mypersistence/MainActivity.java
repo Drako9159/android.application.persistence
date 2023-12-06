@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mypersistence.adapter.RecyclerViewStoreAdapter;
-import com.example.mypersistence.entity.ProductEntity;
 import com.example.mypersistence.entity.StoreEntity;
 
 import java.util.ArrayList;
@@ -100,11 +99,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -131,36 +125,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.editItem) {
-            Intent intent = new Intent(this, ProductEntity.class);
-            //ProductEntity product = productEntityArrayList.get(this.recyclerViewItemSelected);
-            /*intent.putExtra("name", product.getName());
-            intent.putExtra("price", product.getPrice());
-            intent.putExtra("description", product.getDescription());
-            intent.putExtra("_id", product.get_id());
-            intent.putExtra("store_id", this.store_id);
-            intent.putExtra("store_name", this.store_name);*/
+            Intent intent = new Intent(this, StoreActivity.class);
+            StoreEntity store = storeEntityArrayList.get(this.recyclerViewItemSelected);
+
+            intent.putExtra("name", store.getName());
+            intent.putExtra("address", store.getAddress());
+            intent.putExtra("_id", store.get_id());
+
             startActivity(intent);
             return true;
         }
         return super.onContextItemSelected(item);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

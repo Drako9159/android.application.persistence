@@ -123,7 +123,7 @@ public class ProductListActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.editItem) {
-            Intent intent = new Intent(this, ProductEntity.class);
+            Intent intent = new Intent(this, ProductActivity.class);
             ProductEntity product = productEntityArrayList.get(this.recyclerViewItemSelected);
             intent.putExtra("name", product.getName());
             intent.putExtra("price", product.getPrice());

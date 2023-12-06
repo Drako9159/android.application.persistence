@@ -123,7 +123,6 @@ public class ProductActivity extends AppCompatActivity {
                     contentValues, "_id+" + this.productSelectedId, null
             );
 
-
             if (count != 0) {
                 Intent intent = new Intent(this, ProductListActivity.class);
                 intent.putExtra("store_id", this.store_id);
@@ -146,9 +145,10 @@ public class ProductActivity extends AppCompatActivity {
 
         int count = sqLiteDatabase.delete(
                 StoreContract.ProductEntry.TABLE_NAME,
-                "_id" + this.productSelectedId,
+                "_id=" + this.productSelectedId,
                 null
         );
+
         if (count != 0) {
             Intent intent = new Intent(this, ProductListActivity.class);
             intent.putExtra("store_id", this.store_id);
@@ -160,6 +160,7 @@ public class ProductActivity extends AppCompatActivity {
             Toast.makeText(this, "Error, intenta otra vez", Toast.LENGTH_SHORT).show();
 
         }
+        sqLiteDatabase.close();
 
     }
 
